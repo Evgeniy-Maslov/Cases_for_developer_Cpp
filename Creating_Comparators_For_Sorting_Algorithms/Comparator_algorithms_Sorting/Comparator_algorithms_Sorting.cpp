@@ -19,7 +19,21 @@ struct Person
 //******************/ место работы /****************//
 struct Job          
 {
+    Job(): id(0) {}
     Job(const std::string& _name, int _id) : name(_name), id(_id) {}
+    Job(const Job& other) : name(other.name), id(other.id) {}
+    Job& operator=(const Job& other)
+    {
+        name = other.name;
+        id = other.id;
+        return *this;
+    }
+    Job& operator()(const Job& other)
+    {
+        name = other.name;
+        id = other.id;
+        return *this;
+    }
     std::string name ;
     int id;
 };
@@ -27,7 +41,21 @@ struct Job
 //*****************/ должность /********************//
 struct Position  
 {
+    Position() : id(0) {}
     Position(const std::string& _name, int _id) : name(_name), id(_id) {}
+    Position(const Position& other) : name(other.name), id(other.id) {}
+    Position& operator()(const Position& other)
+    {
+        name = other.name;
+        id = other.id;
+        return *this;
+    }
+    Position& operator=(const Position& other)
+    {
+        name = other.name;
+        id = other.id;
+        return *this;
+    }
     std::string name;
     int id;
 };
@@ -39,6 +67,7 @@ struct Position
 class PersonsList
 {
 public:
+    PersonsList(): jobMap_id(1), posMap_id(0) {}
     void addPerson(const Person& person)
     { 
         persons.push_back(person);
@@ -59,24 +88,28 @@ public:
 
     std::string name_Job(int id)
     {
-        for (auto iter{ jobsMap.begin() }; iter != jobsMap.end(); iter++)
+        auto nameJob = jobsMap[id];
+        return nameJob.name;
+        /*for (auto iter{ jobsMap.begin() }; iter != jobsMap.end(); iter++)
         {
             if (id == iter->second.id)
             {
                 return iter->second.name;
             }
-        }
+        }*/
     }
 
     std::string name_Position(int id)
     {
-        for (auto iter{ positionsMap.begin() }; iter != positionsMap.end(); iter++)
+        auto namePosition = jobsMap[id];
+        return namePosition.name;
+       /* for (auto iter{ positionsMap.begin() }; iter != positionsMap.end(); iter++)
         {
             if (id == iter->second.id)
             {
                 return iter->second.name;
             }
-        }
+        }*/
     }
 
     void print_person()
@@ -98,9 +131,9 @@ public:
 private:
     std::vector<Person> persons;
     std::map<int, Job> jobsMap;
-    int jobMap_id = 0;
+    int jobMap_id;
     std::map<int, Position> positionsMap;
-    int posMap_id = 0;
+    int posMap_id;
 
 };
 
@@ -198,10 +231,6 @@ int main()
     person_list.addPerson(Person("Cruise", "Tom", 62, 1, 5));
     person_list.addPerson(Person("Depp", "Maks", 43, 3, 4));
 
-    //person_list.print_map_Job();
-    //std::cout << std::endl;
-    //person_list.print_map_position();
-    //std::cout << std::endl;
 
     std::cout << "\tbefore sorting\n" << std::endl;
     person_list.print_person();
