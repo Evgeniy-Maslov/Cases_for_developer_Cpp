@@ -67,18 +67,18 @@ struct Position
 class PersonsList
 {
 public:
-    PersonsList(): jobMap_id(1), posMap_id(0) {}
+    PersonsList() {}
     void addPerson(const Person& person)
     { 
         persons.push_back(person);
     }
     void addPosition(const Position& position)
     {
-       positionsMap.insert(std::pair<int, Position>(posMap_id++, position));
+       positionsMap.insert(std::pair<int, Position>(position.id, position));
     }
     void addJob(const Job& job)
     {
-       jobsMap.insert(std::pair<int, Job>(jobMap_id++, job));
+       jobsMap.insert(std::pair<int, Job>(job.id, job));
     }
 
     bool operator ()(const Person& person1, const Person& person2)
@@ -131,10 +131,7 @@ public:
 private:
     std::vector<Person> persons;
     std::map<int, Job> jobsMap;
-    int jobMap_id;
     std::map<int, Position> positionsMap;
-    int posMap_id;
-
 };
 
 /*
